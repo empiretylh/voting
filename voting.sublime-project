@@ -1,0 +1,14 @@
+{
+    // ...
+
+    "settings": {
+        // ...
+        "python_virtualenv": "../../../.virtualenvs/djangodev/",
+        "python_interpreter": "../../../.virtualenvs/djangodev/bin/python",
+
+        "python_package_paths": [
+            "$home/.buildout/eggs",
+            "$project_path/addons"
+        ]
+    }
+}
