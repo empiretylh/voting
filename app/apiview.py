@@ -51,3 +51,98 @@ class CreateUserApiView(CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=headers)
 
+class CreateVotingView(APIView):
+
+
+     def post(self,request):
+        title = request.data['title']
+        user =  get_user_model().objects.get(username=request.user)
+        end_time = request.data['endtime']
+        models.VotingM.objects.create(user=user,title=title,end_time=end_time)
+
+        return Response(status=status.HTTP_201_CREATED)
+
+     def get(self,request):
+        user = get_user_model().objects.get(username=request.user)
+        voting = models.VotingM.objects.get(user=user,is_end=False);
+        vserializer = serializers.VotingMSerializer(voting,many=True)
+        return Response(vserializer.data)
+
+
+
+
+
+
+class CheckVotingCode(APIView):
+    permissions_classes = [AllowAny]
+
+    def get(self,request):
+        votingcode = request.GET.get('votingcode')
+
+        try:
+            v_data = models.VotingM.objects.get(id=votingcode,is_end=False)
+            return Response(1)
+        except ObjectDoesNotExist:
+            print('ObjectDoesNotExist')
+            return Response('This Voting Code is Invalid')
+
+
+
+class VotingMView(APIView):
+    permissions_classes = [AllowAny]
+
+    def get(self,request):
+        votingcode = request.GET.get('votingcode')
+
+        try:
+            v_data = models.VotingM.objects.get(id=votingcode,is_end=False)
+            ser = serializers.VotingMSerializer(v_data)
+        
+            return Response(ser.data);
+
+        except ObjectDoesNotExist:
+            return Response('This Voting Code is Invalid')
+        
+
+
+class SelectionKing(APIView):
+    permissions_classes=[AllowAny]
+
+    def post(self,request):
+        name = request.data['name']
+        year = request.data['year']
+        iglink = request.data['iglink']
+        fblink = request.data['fblink']
+        user =  get_user_model().objects.get(username=request.user)
+
+        models.SelectionKing.objects.create(name=name,year=year,iglink=iglink,fblink=fblink)
+            
+        return Response(status=status.HTTP_201_CREATED)
+
+    #Client Can Request This View
+
+    def get(self,request):
+        votingcode = request.data['votingcode']
+        voting = models.VotingM.objects.get(id=votingcode)
+        
+
+class RegisterNewDevice(APIView):
+    permission_classes= [AllowAny]
+
+    def post(self,request):
+        dvid = request.data['deviceid']
+        name = request.data['name']
+        votingcode = request.data['votingcode']
+        voting = models.VotingM.objects.get(id=votingcode,is_end=False)
+        try:
+            is_has = models.Device.objects.get(votingm=voting,deviceid=dvid)
+            is_has.name = name;
+            is_has.save();
+            print('Devices Is Already Registred');
+            return Response(status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            mdels.Device.objects.create(votingm=voting,name=name,deviceid=dvid)
+            print('New Devices Created');
+            return Response(status=status.HTTP_201_CREATED)
+
+

@@ -24,9 +24,10 @@ class User(AbstractUser):
 
 
 class VotingM(models.Model):
+  
     title = models.CharField(max_length=255,null=False,blank=False)
     is_start =  models.BooleanField(default=False)
-    is_end = models.BooleanField(default=True)
+    is_end = models.BooleanField(default=False)
     end_time = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -52,8 +53,10 @@ class SelectionKing(models.Model):
     fblink = models.TextField(null=True)
     iglink = models.TextField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE)
-
+    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='sel_king')
+    profileimage = models.ImageField(
+        upload_to="img/selection/profile/%y/%mm/%dd", null=True)
+    is_male = models.BooleanField(default=True)
     def __str__(self):
         return self.name + ' ' + self.year;
 
@@ -65,8 +68,10 @@ class SelectionQueen(models.Model):
     fblink = models.TextField(null=True)
     iglink = models.TextField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE)
-
+    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='sel_queen')
+    profileimage = models.ImageField(
+        upload_to="img/selection/profile/%y/%mm/%dd", null=True)
+    is_male = models.BooleanField(default=False)
     def __str__(self):
         return self.name + ' ' + self.year;
 

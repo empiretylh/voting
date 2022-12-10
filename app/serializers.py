@@ -21,3 +21,58 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         return user
 
+class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Device 
+        fields = ['id','deviceid','name','votingm']
+
+class FinishKingGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FinishKingGroup
+        fields= ['id','device','selection']
+
+
+class FinishQueenGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FinishQueenGroup
+        fields= ['id','device','selection']
+
+class SelectionImageKingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SelectionImageKing
+        fields = ['image','sk']
+
+
+
+class SelectionImageQueenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SelectionImageQueen
+        fields = ['image','sk']
+
+
+class SelectionKingSerializer(serializers.ModelSerializer):
+    images = SelectionImageKingSerializer(many=True,read_only=True)
+
+    class Meta:
+        model = models.SelectionKing
+        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
+
+
+class SelectionQueenSerializer(serializers.ModelSerializer):
+    images = SelectionImageQueenSerializer(many=True,read_only=True)
+    class Meta:
+        model = models.SelectionQueen
+        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
+
+
+
+
+class VotingMSerializer(serializers.ModelSerializer):
+    # devices = DeviceSerializer(many=True,read_only=True)
+    sel_king = SelectionKingSerializer(many=True,read_only=True)
+    sel_queen = SelectionQueenSerializer(many=True,read_only=True)
+    class Meta: 
+        model = models.VotingM
+        fields = ['id','title','is_start','is_end','end_time','user','sel_king','sel_queen']
+
+

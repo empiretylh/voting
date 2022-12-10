@@ -16,7 +16,10 @@ urlpatterns = [
     path('auth/login/', obtain_auth_token, name='auth_user_login'),
     path('auth/register/', apiview.CreateUserApiView.as_view(),
          name='auth_user_create'),
-  
+
+    path('api/checkcode/',apiview.CheckVotingCode.as_view(),name='check_code'),
+    path('api/votingm/',apiview.VotingMView.as_view(),name='voting'),
+    path('api/registerdevice/',apiview.RegisterNewDevice.as_view(),name='register_device')
 
     
 ]
