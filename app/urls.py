@@ -1,3 +1,4 @@
+
 from django.urls import path, include
 
 # from app.models import SalesTwoDigits
@@ -17,11 +18,23 @@ urlpatterns = [
     path('auth/register/', apiview.CreateUserApiView.as_view(),
          name='auth_user_create'),
 
+
+    path('api/createvotingcode/',apiview.CreateVotingView.as_view(),name='create_v'),
     path('api/checkcode/',apiview.CheckVotingCode.as_view(),name='check_code'),
     path('api/votingm/',apiview.VotingMView.as_view(),name='voting'),
-    path('api/registerdevice/',apiview.RegisterNewDevice.as_view(),name='register_device')
+    path('api/registerdevice/',apiview.RegisterNewDevice.as_view(),name='register_device'),
 
-    
+
+    path('api/selectionqueen/',apiview.SelectionQueen.as_view(),name='selectionqueen'),
+    path('api/selectionking/',apiview.SelectionKing.as_view(),name='selectionking'),
+
+    # retun Image
+    path('api/selectionkingimage/',apiview.KingImage.as_view(),name='selectionkingimage'),
+    path('api/selectionqueenimage/',apiview.QueenImage.as_view(),name='selectionqueenimage'),
+
+
+    path('api/voteking/',apiview.VoteKing.as_view(),name='voteking'),
+    path('api/votequeen/',apiview.VoteQueen.as_view(),name='votequeen'),    
 ]
 
 

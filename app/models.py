@@ -24,7 +24,7 @@ class User(AbstractUser):
 
 
 class VotingM(models.Model):
-  
+    votingcode = models.IntegerField(null=False,blank=False,default=00000)  
     title = models.CharField(max_length=255,null=False,blank=False)
     is_start =  models.BooleanField(default=False)
     is_end = models.BooleanField(default=False)
@@ -77,18 +77,20 @@ class SelectionQueen(models.Model):
 
 
 class FinishKingGroup(models.Model):
-    device = models.OneToOneField(Device, on_delete=models.CASCADE)
-    selection =  models.OneToOneField(SelectionKing, on_delete=models.CASCADE)
-
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    selection =  models.ForeignKey(SelectionKing, on_delete=models.CASCADE)
+    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='finish_king')
+   
     def __str__(self):
         return self.device.name + ' '+ self.selection.name
 
 
 
 class FinishQueenGroup(models.Model):
-    device = models.OneToOneField(Device, on_delete=models.CASCADE)
-    selection =  models.OneToOneField(SelectionQueen, on_delete=models.CASCADE)
-
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    selection =  models.ForeignKey(SelectionQueen, on_delete=models.CASCADE)
+    vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='finish_queen')
+   
     def __str__(self):
         return self.device.name + ' '+ self.selection.name
 

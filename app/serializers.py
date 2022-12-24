@@ -11,7 +11,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['name', 'username', 'email', 'phoneno', 'password','address']
+        fields = ['name', 'username', 'email', 'phoneno', 'password']
         write_only_fields = ('password')
 
     def create(self, validated_data):
@@ -40,14 +40,14 @@ class FinishQueenGroupSerializer(serializers.ModelSerializer):
 class SelectionImageKingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SelectionImageKing
-        fields = ['image','sk']
+        fields = ['id','image','sk']
 
 
 
 class SelectionImageQueenSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SelectionImageQueen
-        fields = ['image','sk']
+        fields = ['id','image','sk']
 
 
 class SelectionKingSerializer(serializers.ModelSerializer):
@@ -60,6 +60,7 @@ class SelectionKingSerializer(serializers.ModelSerializer):
 
 class SelectionQueenSerializer(serializers.ModelSerializer):
     images = SelectionImageQueenSerializer(many=True,read_only=True)
+   
     class Meta:
         model = models.SelectionQueen
         fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
@@ -73,6 +74,6 @@ class VotingMSerializer(serializers.ModelSerializer):
     sel_queen = SelectionQueenSerializer(many=True,read_only=True)
     class Meta: 
         model = models.VotingM
-        fields = ['id','title','is_start','is_end','end_time','user','sel_king','sel_queen']
+        fields = ['id','votingcode','title','is_start','is_end','end_time','user','sel_king','sel_queen']
 
 

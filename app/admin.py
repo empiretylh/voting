@@ -8,3 +8,6 @@ admin.site.register(models.SelectionQueen)
 admin.site.register(models.SelectionImageKing)
 admin.site.register(models.SelectionImageQueen)
 admin.site.register(models.Device)
+
+admin.site.register(models.FinishKingGroup)
+admin.site.register(models.FinishQueenGroup)
