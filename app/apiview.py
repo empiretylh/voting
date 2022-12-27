@@ -69,6 +69,20 @@ class CreateVotingView(APIView):
         v.save()
         return Response(v.votingcode)
 
+     def put(self,request):
+        user = get_user_model().objects.get(username=request.user)
+        votingcode =request.data['votingcode']
+        end_time = request.data['endtime']
+
+
+        voting = models.VotingM.objects.get(user=user,votingcode=votingcode)
+        voting.end_time = end_time
+
+        voting.save()
+        vserializer = serializers.VotingMSerializer(voting)
+        return Response(vserializer.data)
+
+
      def get(self,request):
         user = get_user_model().objects.get(username=request.user)
         voting = models.VotingM.objects.filter(user=user);
@@ -293,7 +307,7 @@ class KingImage(APIView):
     permissions_classes=[AllowAny]
 
     def post(self,request):
-        kingid = request.data['kingid']
+        kingid = request.data['person_id']
         image = request.data['image']
         user = get_user_model().objects.get(username=request.user)
         king = models.SelectionKing.objects.get(user=user,id=kingid)
@@ -316,10 +330,10 @@ class QueenImage(APIView):
     permissions_classes=[AllowAny]
 
     def post(self,request):
-        kingid = request.data['queenid']
+        kingid = request.data['person_id']
         image = request.data['image']
         user = get_user_model().objects.get(username=request.user)
-        king = models.SelectionImageQueen.objects.get(user=user,id=kingid)
+        king = models.SelectionQueen.objects.get(user=user,id=kingid)
         models.SelectionImageQueen.objects.create(sk=king,image=image,user=user)
 
         return Response(status=status.HTTP_201_CREATED)
@@ -332,6 +346,39 @@ class QueenImage(APIView):
         ser = serializers.SelectionImageQueenSerializer(i_k,many=True)
         return Response(ser.data)
 
+
+class KingResult(APIView):
+    # permissions_classes=[AllowAny]
+
+    def get(self,request):
+        user = get_user_model().objects.get(username=request.user)
+        votingcode = request.GET.get('votingcode')
+        v_data = models.VotingM.objects.get(votingcode=votingcode,user=user)
+
+        try:
+            voted = models.FinishKingGroup.objects.filter(vm=v_data)
+            ser = serializers.FinishKingGroupSerializer(voted,many=True)
+            return Response(ser.data)
+        except ObjectDoesNotExist:
+          
+            return Response(0)
+
+
+class QueenResult(APIView):
+    # permissions_classes=[AllowAny]
+
+    def get(self,request):
+        votingcode = request.GET.get('votingcode')
+        user = get_user_model().objects.get(username=request.user)
+        v_data = models.VotingM.objects.get(votingcode=votingcode,user=user)
+
+        try:
+            voted = models.FinishQueenGroup.objects.filter(vm=v_data,)
+            ser = serializers.FinishQueenGroupSerializer(voted,many=True)
+            return Response(ser.data)
+        except ObjectDoesNotExist:
+            # print('Queen Voted Objects Not Exists')
+            return Response(0)
 
 
 

@@ -26,16 +26,6 @@ class DeviceSerializer(serializers.ModelSerializer):
         model = models.Device 
         fields = ['id','deviceid','name','votingm']
 
-class FinishKingGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.FinishKingGroup
-        fields= ['id','device','selection']
-
-
-class FinishQueenGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.FinishQueenGroup
-        fields= ['id','device','selection']
 
 class SelectionImageKingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,6 +56,19 @@ class SelectionQueenSerializer(serializers.ModelSerializer):
         fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
 
 
+
+class FinishKingGroupSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = models.FinishKingGroup
+        fields= ['id','device','selection']
+
+
+class FinishQueenGroupSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = models.FinishQueenGroup
+        fields= ['id','device','selection']
 
 
 class VotingMSerializer(serializers.ModelSerializer):

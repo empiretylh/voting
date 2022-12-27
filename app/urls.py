@@ -33,6 +33,10 @@ urlpatterns = [
     path('api/selectionqueenimage/',apiview.QueenImage.as_view(),name='selectionqueenimage'),
 
 
+    #return Result 
+    path('api/kingresult/',apiview.KingResult.as_view(),name='kingresult'),
+    path('api/queenresult/',apiview.QueenResult.as_view(),name='queenresult'),
+
     path('api/voteking/',apiview.VoteKing.as_view(),name='voteking'),
     path('api/votequeen/',apiview.VoteQueen.as_view(),name='votequeen'),    
 ]

@@ -78,7 +78,7 @@ class SelectionQueen(models.Model):
 
 class FinishKingGroup(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
-    selection =  models.ForeignKey(SelectionKing, on_delete=models.CASCADE)
+    selection =  models.ForeignKey(SelectionKing, on_delete=models.CASCADE,related_name='selection_d')
     vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='finish_king')
    
     def __str__(self):
@@ -88,7 +88,7 @@ class FinishKingGroup(models.Model):
 
 class FinishQueenGroup(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
-    selection =  models.ForeignKey(SelectionQueen, on_delete=models.CASCADE)
+    selection =  models.ForeignKey(SelectionQueen, on_delete=models.CASCADE,related_name='selection_d')
     vm =  models.ForeignKey(VotingM, on_delete=models.CASCADE,related_name='finish_queen')
    
     def __str__(self):
