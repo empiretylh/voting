@@ -110,7 +110,7 @@ class VoteKing(APIView):
         v_data = models.VotingM.objects.get(votingcode=votingcode,is_end=False)
            
         sel_king = models.SelectionKing.objects.get(vm=v_data,id=kingid)
-        device = models.Device.objects.get(deviceid=dvid)
+        device = models.Device.objects.get(votingm=v_data,deviceid=dvid)
 
         try:
             models.FinishKingGroup.objects.get(device=device,vm=v_data)
@@ -153,7 +153,7 @@ class VoteQueen(APIView):
         v_data = models.VotingM.objects.get(votingcode=votingcode,is_end=False)
            
         sel_queen = models.SelectionQueen.objects.get(vm=v_data,id=queenid)
-        device = models.Device.objects.get(deviceid=dvid)
+        device = models.Device.objects.get(votingm=v_data,deviceid=dvid)
         try:
             models.FinishQueenGroup.objects.get(device=device,vm=v_data)
             print('Object Already Exists')
