@@ -380,7 +380,14 @@ class QueenResult(APIView):
             # print('Queen Voted Objects Not Exists')
             return Response(0)
 
+class Endtime(APIView):
 
+    def get(self,request):
+        votingcode = request.GET.get('votingcode')
+        v_data = models.VotingM.objects.get(votingcode=votingcode)
+        
+        return Response(v_data.end_time)
+        
 
 class RegisterNewDevice(APIView):
     permission_classes= [AllowAny]

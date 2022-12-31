@@ -39,6 +39,9 @@ urlpatterns = [
 
     path('api/voteking/',apiview.VoteKing.as_view(),name='voteking'),
     path('api/votequeen/',apiview.VoteQueen.as_view(),name='votequeen'),    
+
+    #return EndTime 
+    path('api/endtime/',apiview.Endtime.as_view(),name='endtime'),
 ]
 
 
