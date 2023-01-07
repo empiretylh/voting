@@ -243,6 +243,28 @@ class SelectionKing(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
+    def put(self,request,format=None):
+        id = request.data['id']
+
+        name = request.data['name']
+        year = request.data['year']
+        iglink = request.data['iglink']
+        fblink = request.data['fblink']
+        votingcode = request.data['votingcode']
+        
+
+        user =  get_user_model().objects.get(username=request.user)
+        voting = models.VotingM.objects.get(votingcode=votingcode,user=user)
+        md = models.SelectionKing.objects.get(id=id,user=user,vm=voting)
+        md.name = name
+        md.year = year
+        md.iglink = iglink
+        md.fblink = fblink 
+        # md.profileimage = pfimage
+        md.save()
+        
+        return Response(status=status.HTTP_201_CREATED)
+
     #Client Can Request This View
 
     def get(self,request):
@@ -283,6 +305,28 @@ class SelectionQueen(APIView):
         return Response(status=status.HTTP_201_CREATED)
 
     #Client Can Request This View
+    
+    def put(self,request,format=None):
+        id = request.data['id']
+
+        name = request.data['name']
+        year = request.data['year']
+        iglink = request.data['iglink']
+        fblink = request.data['fblink']
+        votingcode = request.data['votingcode']
+        
+
+        user =  get_user_model().objects.get(username=request.user)
+        voting = models.VotingM.objects.get(votingcode=votingcode,user=user)
+        md = models.SelectionQueen.objects.get(id=id,user=user,vm=voting)
+        md.name = name
+        md.year = year
+        md.iglink = iglink
+        md.fblink = fblink 
+        # md.profileimage = pfimage
+        md.save()
+        
+        return Response(status=status.HTTP_201_CREATED)
 
     def get(self,request):
         votingcode = request.GET.get('votingcode')
@@ -407,5 +451,18 @@ class RegisterNewDevice(APIView):
             models.Device.objects.create(votingm=voting,name=name,deviceid=dvid)
             print('New Devices Created');
             return Response(status=status.HTTP_201_CREATED)
+
+    #Only Admin Can Request This
+
+    def get(self,request):
+        votingcode = request.GET.get('votingcode')
+        user = get_user_model().objects.get(username=request.user)    
+        voting = models.VotingM.objects.get(votingcode=votingcode,is_end=False,user=user)
+
+        device = models.Device.objects.filter(votingm=voting)
+        ser = serializers.DeviceSerializer(device,many=True)
+        return Response(ser.data)
+
+
 
 
