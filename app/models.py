@@ -57,8 +57,13 @@ class SelectionKing(models.Model):
     profileimage = models.ImageField(
         upload_to="img/selection/profile/%y/%mm/%dd", null=True)
     is_male = models.BooleanField(default=True)
+    age = models.TextField(null=True, default='18')
+    hobbies =  models.TextField(null=True, default='')
+    address = models.TextField(null=True, default='')
+
+
     def __str__(self):
-        return self.name + ' ' + self.year;
+        return self.name + ' ' + self.year
 
 
 
@@ -72,8 +77,12 @@ class SelectionQueen(models.Model):
     profileimage = models.ImageField(
         upload_to="img/selection/profile/%y/%mm/%dd", null=True)
     is_male = models.BooleanField(default=False)
+    age = models.TextField(null=True, default='18')
+    hobbies =  models.TextField(null=True, default='')
+    address = models.TextField(null=True, default='')
+    
     def __str__(self):
-        return self.name + ' ' + self.year;
+        return self.name + ' ' + self.year
 
 
 class FinishKingGroup(models.Model):

@@ -45,7 +45,7 @@ class SelectionKingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.SelectionKing
-        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
+        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images','age','hobbies','address']
 
 
 class SelectionQueenSerializer(serializers.ModelSerializer):
@@ -53,7 +53,7 @@ class SelectionQueenSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = models.SelectionQueen
-        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images']
+        fields = ['id','name','year','fblink','iglink','user','vm','is_male','profileimage','images','age','hobbies','address']
 
 
 
